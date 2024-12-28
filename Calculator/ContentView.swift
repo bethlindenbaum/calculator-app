@@ -10,11 +10,13 @@ import SwiftUI
 let lightPink = Color(red: 255/255, green: 182/255, blue: 193/255)
 let blushPink = Color(red: 254/255, green: 130/255, blue: 140/255)
 let darkPink = Color(red: 170/255, green: 51/255, blue: 106/255)
-let darkLavendar = Color(red: 115/255, green: 79/255, blue: 150/255)
+let darkLavender = Color(red: 115/255, green: 79/255, blue: 150/255)
 let periwinkle = Color(red: 167/255, green: 199/255, blue: 231/255)
 let saphireBlue = Color(red: 65/255, green: 105/255, blue: 225/255)
 let royalBlue = Color(red: 150/255, green: 222/255, blue: 209/255)
 let pink = Color(red: 255/255, green: 192/255, blue: 203/255)
+let mauve = Color(red: 135/255, green: 76/255, blue: 98/255)
+let customMauve = Color(red: 145/255, green: 76/255, blue: 108/255)
 
 enum CalcButton: String{
     case one = "1"
@@ -42,7 +44,7 @@ enum CalcButton: String{
         case .add, .subtract, .multiply, .divide, .equal:
             return periwinkle
         case .clear, .negative, .percent:
-            return blushPink
+            return lightPink
         default:
             return pink
         }
@@ -65,7 +67,7 @@ struct ContentView: View {
     var body: some View {
         ZStack
         {
-            darkPink.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            customMauve.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
             VStack {
                 Spacer()
@@ -87,7 +89,7 @@ struct ContentView: View {
                                 self.didTap(button: item)
                             }, label: {
                                 Text(item.rawValue)
-                                    . font(. system(size: 40))
+                                    . font(. system(size: 45))
                                     .frame(width: self.buttonWidth(item: item), height: self.buttonHeight())
                                     .background(item.buttonColor)
                                     .foregroundColor(.white)
