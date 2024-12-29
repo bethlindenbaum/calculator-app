@@ -17,6 +17,15 @@ let royalBlue = Color(red: 150/255, green: 222/255, blue: 209/255)
 let pink = Color(red: 255/255, green: 192/255, blue: 203/255)
 let mauve = Color(red: 135/255, green: 76/255, blue: 98/255)
 let customMauve = Color(red: 145/255, green: 76/255, blue: 108/255)
+let pastelPink = Color(red: 255/255, green: 209/255, blue: 220/255)
+let fuchsia = Color(red: 100/255, green: 0/255, blue: 100/255)
+let hotPink = Color(red: 255/255, green: 105/255, blue: 180/255)
+let dustyRose = Color(red: 201/255, green: 135/255, blue: 135/255)
+let rose = Color(red: 255/255, green: 0/255, blue: 127/255)
+let pink2 = Color(red: 231/255, green: 84/255, blue: 128/255)
+let flamingo = Color(red: 252/255, green: 142/255, blue: 172/255)
+let mauvelous = Color(red: 239/255, green: 152/255, blue: 170/255)
+let schaussPink = Color(red: 255/255, green: 145/255, blue: 175/255)
 
 enum CalcButton: String{
     case one = "1"
@@ -42,18 +51,27 @@ enum CalcButton: String{
     var buttonColor: Color{
         switch self{
         case .add, .subtract, .multiply, .divide, .equal:
-            return periwinkle
+            return mauve
         case .clear, .negative, .percent:
-            return lightPink
+            return pastelPink
         default:
-            return pink
+            return schaussPink
         }
     }
 }
 
+enum Operation {
+    case add, subtract, multiply, divide, none
+}
+
 struct ContentView: View {
     
-    @State var value = "0"
+    @State var strValue = "0"
+    @State var numValue = 0
+    @State var runningNumber: Double = 0
+    @State var currentOperation: Operation = .none
+    @State var decimalTapped = false
+    @State var negativetapped = false
     
     let buttons: [[CalcButton]] = [
         [.clear, .negative, .percent, .divide],
@@ -67,14 +85,14 @@ struct ContentView: View {
     var body: some View {
         ZStack
         {
-            customMauve.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            hotPink.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
             VStack {
                 Spacer()
                 // Text display
                 HStack{
                     Spacer()
-                    Text(value)
+                    Text(strValue)
                         .foregroundColor(.white)
                         .bold()
                         .font(.system(size: 80))
@@ -106,18 +124,65 @@ struct ContentView: View {
     func didTap(button: CalcButton) {
         switch button {
         case .add, .subtract, .multiply, .divide, .equal:
-            break
+            switch button {
+            case .add:
+                self.currentOperation = .add
+                self.runningNumber = Double(self.strValue) ?? 0
+                print("self.runningNumber: \(self.runningNumber)")
+            case .subtract:
+                self.currentOperation = .subtract
+                self.runningNumber = Double(self.strValue) ?? 0
+            case .multiply:
+                self.currentOperation = .multiply
+                self.runningNumber = Double(self.strValue) ?? 0
+            case .divide:
+                self.currentOperation = .divide
+                self.runningNumber = Double(self.strValue) ?? 0
+            case .equal:
+                let runningValue = self.runningNumber
+                let currentValue = Double(self.strValue) ?? 0
+                switch self.currentOperation {
+                case .add:
+                    self.strValue = "\(runningValue + currentValue)"
+                case .subtract:
+                    self.strValue = "\(runningValue - currentValue)"
+                case .multiply:
+                    self.strValue = "\(runningValue * currentValue)"
+                case .divide:
+                    self.strValue = "\(runningValue / currentValue)"
+                case .none:
+                    break
+                }
+            default:
+                break
+            }
+            
+            if button != .equal {
+                self.strValue = "0"
+            }
+        case .percent:
+            let newNum = 0.01 * (Double(self.strValue) ?? 0)
+            self.strValue = "\(newNum)"
+            print("self.strValue: \(self.strValue)")
         case .clear:
-            self.value = "0"
-        case .decimal, .percent, .negative:
-            break
+            self.strValue = "0"
+            runningNumber = 0
+        case .decimal:
+            if (!self.strValue.contains(".")) {
+                self.strValue = "\(self.strValue)."
+            }
+        case .negative:
+            var tempValue = Double(self.strValue) ?? 0
+            tempValue *= -1
+            self.strValue = "\(tempValue)"
         default:
             let number = button.rawValue
-            if (self.value == "0") {
-                value = number
+            if (self.strValue == "0") {
+                strValue = number
             }
             else {
-                self.value = "\(self.value)\(number)"
+                self.strValue = "\(self.strValue)\(number)"
+                print("self.strValue: \(self.strValue)")
             }
         }
     }
