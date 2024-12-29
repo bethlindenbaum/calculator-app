@@ -26,6 +26,16 @@ let pink2 = Color(red: 231/255, green: 84/255, blue: 128/255)
 let flamingo = Color(red: 252/255, green: 142/255, blue: 172/255)
 let mauvelous = Color(red: 239/255, green: 152/255, blue: 170/255)
 let schaussPink = Color(red: 255/255, green: 145/255, blue: 175/255)
+let darkBlue = Color(red: 0.2, green: 0.3, blue: 0.5)
+let veryDarkBlue = Color(red: 0, green: 0, blue: 90/255)
+let pinkishRed = Color(red: 0.8, green: 0.2, blue: 0.4)
+let spaceCadet = Color(red: 21/255, green: 40/255, blue: 82/255)
+let maastrichtBlue = Color(red: 8/255, green: 24/255, blue: 58/255)
+let jazzberryJam = Color(red: 156/255, green: 15/255, blue: 95/255)
+let backgroundGradient = LinearGradient(
+    colors: [Color.red, Color.blue],
+    startPoint: .top, endPoint: .bottom)
+let circleGradient = AngularGradient(colors: [.blue, .purple, .pink, .red, .pink, .purple, .blue], center: .center)
 
 enum CalcButton: String{
     case one = "1"
@@ -51,11 +61,11 @@ enum CalcButton: String{
     var buttonColor: Color{
         switch self{
         case .add, .subtract, .multiply, .divide, .equal:
-            return mauve
+            return jazzberryJam
         case .clear, .negative, .percent:
-            return pastelPink
+            return darkBlue
         default:
-            return schaussPink
+            return maastrichtBlue
         }
     }
 }
@@ -85,7 +95,7 @@ struct ContentView: View {
     var body: some View {
         ZStack
         {
-            hotPink.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            backgroundGradient.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             
             VStack {
                 Spacer()
